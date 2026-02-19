@@ -1,11 +1,12 @@
-import { getInputs } from "./inputs";
+import { getActionInputs } from "./inputs/action";
 import { setFailed } from '@actions/core';
 import { DomainReviewerAction } from "./action";
+import {getRunnerPayload} from "./inputs/runner-payload";
 
 async function main() {
-    const inputs = getInputs();
-    const action = new DomainReviewerAction(inputs);
-    await action.run();
+    const inputs = getActionInputs();
+    const event = await getRunnerPayload();
+    return new DomainReviewerAction(inputs).run(event);
 }
 
 main().catch(error => {

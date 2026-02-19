@@ -38,7 +38,7 @@ export default defineConfig({
     assetsDir: '.',
     minify: process.env.MODE === 'production' ? 'esbuild' : false,
     lib: {
-      entry: 'src/index.ts',
+      entry: ['src/index.ts', 'scripts/json-schema.ts'],
       formats: ['cjs'],
     },
     rollupOptions: {

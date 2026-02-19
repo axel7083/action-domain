@@ -1,6 +1,8 @@
 name: Domain Reviewer
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
 
 jobs:
   domains-reviewer:
