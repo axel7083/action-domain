@@ -1,0 +1,12 @@
+name: Domain Reviewer
+
+on: [pull_request]
+
+jobs:
+  domains-reviewer:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: axel7083/action-domain@423b6342779b23bc3463c7d81f828bbaaecf32d5
+        with:
+          configuration-url: https://raw.githubusercontent.com/axel7083/action-domain/refs/heads/main/domains.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
