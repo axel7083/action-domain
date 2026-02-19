@@ -1,0 +1,14 @@
+name: Domains reviewers
+description: Enforce domains reviewers
+branding:
+  icon: package
+  color: purple
+inputs:
+  configuration-url:
+    description: Configuration to use
+    required: true
+outputs: {}
+runs:
+  using: node24
+  main: dist/index.js
+  post: dist/index.js

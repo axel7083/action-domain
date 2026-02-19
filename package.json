@@ -1,0 +1,20 @@
+{
+  "name": "actions-domains",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "zod": "^4.3.6",
+    "@octokit/rest": "^22.0.1",
+    "@actions/core": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3",
+    "@tsconfig/node24": "^24.0.4",
+    "@types/node": "^24"
+  },
+  "private": true
+}
