@@ -1,4 +1,5 @@
 {
+  "$schema": "./schema.json",
   "domains": {
     "dummy": [{
       "username": "axel7083"

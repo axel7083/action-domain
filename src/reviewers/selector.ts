@@ -1,4 +1,4 @@
-import { Owner } from "../schemas/configuration";
+import { Owner } from "../schemas/userConfiguration";
 import { Inputs } from "../schemas/inputs";
 
 export class ReviewerSelector {

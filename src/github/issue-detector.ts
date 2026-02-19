@@ -1,4 +1,4 @@
-import { LinkedIssue } from "./client";
+import type { LinkedIssue } from "./client";
 
 export class IssueDetector {
     private static DOMAIN_REGEX = /^domains\/(.+)\/approved$/;

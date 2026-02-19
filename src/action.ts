@@ -1,11 +1,11 @@
-import { readFile } from 'node:fs/promises';
 import { info, warning } from '@actions/core';
 import { Inputs } from "./schemas/inputs";
 import {GitHubClient, LinkedIssue} from "./github/client";
 import { ConfigurationProvider } from "./configuration/provider";
 import { ReviewerSelector } from "./reviewers/selector";
 import { IssueDetector } from "./github/issue-detector";
-import {EventPayload, EventPayloadSchema} from "./schemas/event-payload";
+import {EventPayload} from "./schemas/event-payload";
+import {UserConfiguration} from "./schemas/userConfiguration";
 
 export class DomainReviewerAction {
     private client: GitHubClient;
@@ -20,44 +20,24 @@ export class DomainReviewerAction {
         this.detector = new IssueDetector();
     }
 
-    async run(): Promise<void> {
-        const eventPath = process.env.GITHUB_EVENT_PATH;
-
-        if (!eventPath) {
-            throw new Error("Missing GITHUB_REPOSITORY or GITHUB_EVENT_PATH");
+    async run(event: EventPayload): Promise<void> {
+        switch (event.action) {
+            default:
+                info(`received event ${event.action}`);
         }
 
-        const raw = await readFile(eventPath, 'utf8');
-        const event: EventPayload = EventPayloadSchema.parse(JSON.parse(raw));
+        info(`Pull request has already ${event.pull_request.requested_reviewers.length} requested reviewers`);
 
         const prNumber = event.pull_request.number;
-        if (!prNumber) {
-            warning("Not a pull request, skipping.");
-            return;
-        }
-
-        const [owner, repo] = event.repository.full_name.split("/");
-
-        const linkedIssues: Array<LinkedIssue> = [];
-        if(event.pull_request.issue_url) {
-            const url = new URL(event.pull_request.issue_url);
-            // pathname api url is under /repos/axel7083/action-domain/issues/2
-            const [,,owner2, repo2,, issueNumber2] = url.pathname.split('/');
-            linkedIssues.push({
-                owner: owner2,
-                repo: repo2,
-                issueNumber: parseInt(issueNumber2),
-            });
-        }
+        const { owner, repo } = event.repository.full_name;
 
         const prBody = await this.client.getPullRequestBody(owner, repo, prNumber);
-        const prAuthor = event.sender.login;
 
         info(`Processing PR #${prNumber} in ${owner}/${repo}`);
 
-        const config = await this.configProvider.fetch();
+        const config: UserConfiguration = await this.configProvider.fetch();
 
-        linkedIssues.push(...this.detector.extractLinkedIssues(prBody, owner, repo));
+        const linkedIssues: Array<LinkedIssue> = this.detector.extractLinkedIssues(prBody, owner, repo)
 
         info(`Found ${linkedIssues.length} linked issues.`);
 
@@ -78,7 +58,7 @@ export class DomainReviewerAction {
 
         const reviewersToAdd = new Set<string>();
         for (const domain of domainsToReview) {
-            const owners = config.domains[domain].filter(o => o.username !== prAuthor);
+            const owners = config.domains[domain].filter(o => o.username !== event.sender.login);
             if (owners) {
                 const selected = this.selector.select(owners);
                 selected.forEach(r => reviewersToAdd.add(r));

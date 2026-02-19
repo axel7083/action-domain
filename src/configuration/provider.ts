@@ -1,14 +1,14 @@
-import { Configuration, ConfigurationSchema } from "../schemas/configuration";
+import { UserConfiguration, UserConfigurationSchema } from "../schemas/userConfiguration";
 
 export class ConfigurationProvider {
     constructor(private url: string) {}
 
-    async fetch(): Promise<Configuration> {
+    async fetch(): Promise<UserConfiguration> {
         const response = await fetch(this.url);
         if (!response.ok) {
             throw new Error(`Failed to fetch configuration from ${this.url}: ${response.statusText}`);
         }
         const data = await response.json();
-        return ConfigurationSchema.parse(data);
+        return UserConfigurationSchema.parse(data);
     }
 }
