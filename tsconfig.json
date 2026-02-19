@@ -2,7 +2,8 @@
   "extends": "@tsconfig/node24/tsconfig.json",
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "noEmit": true
   },
   "include": ["src"]
 }

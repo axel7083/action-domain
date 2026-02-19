@@ -30,4 +30,13 @@ export class GitHubClient {
             reviewers,
         });
     }
+
+    async getPullRequestBody(owner: string, repo: string, prNumber: number): Promise<string> {
+        const { data: pr } = await this.octokit.pulls.get({
+            owner,
+            repo,
+            pull_number: prNumber
+        });
+        return pr.body ?? '';
+    }
 }
