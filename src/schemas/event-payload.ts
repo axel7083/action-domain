@@ -10,7 +10,10 @@ export const EventPayloadSchema = z.object({
         }),
         'draft': z.boolean(),
         'merged': z.boolean(),
-        'number': z.number()
+        'number': z.number(),
+        'requested_reviewers': z.array(z.object({
+            'login': z.string()
+        })),
     }),
     'repository': z.object({
         'full_name': z.string().transform((fullName) => {

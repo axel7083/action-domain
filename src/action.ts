@@ -26,6 +26,8 @@ export class DomainReviewerAction {
                 info(`received event ${event.action}`);
         }
 
+        info(`Pull request has already ${event.pull_request.requested_reviewers.length} requested reviewers`);
+
         const prNumber = event.pull_request.number;
         const { owner, repo } = event.repository.full_name;
 
