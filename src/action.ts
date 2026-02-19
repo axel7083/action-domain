@@ -41,7 +41,8 @@ export class DomainReviewerAction {
         const linkedIssues: Array<LinkedIssue> = [];
         if(event.pull_request.issue_url) {
             const url = new URL(event.pull_request.issue_url);
-            const [owner2, repo2, issueNumber2] = url.pathname.split('/');
+            // pathname api url is under /repos/axel7083/action-domain/issues/2
+            const [,,owner2, repo2, issueNumber2] = url.pathname.split('/');
             linkedIssues.push({
                 owner: owner2,
                 repo: repo2,
