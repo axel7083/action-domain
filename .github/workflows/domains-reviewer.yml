@@ -6,7 +6,7 @@ jobs:
   domains-reviewer:
     runs-on: ubuntu-24.04
     steps:
-      - uses: axel7083/action-domain@d7fb339a7e174706cb36471863550e4c07f738d3
+      - uses: axel7083/action-domain@3a028584b92e9b281a49b9450a911d9286d92b49
         with:
           configuration-url: https://raw.githubusercontent.com/axel7083/action-domain/refs/heads/main/domains.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
