@@ -7,7 +7,6 @@ export const EventPayloadSchema = z.object({
                 'href': z.string()
             })
         }),
-        'issue_url': z.string().optional(),
         'draft': z.boolean(),
         'merged': z.boolean(),
         'number': z.number()

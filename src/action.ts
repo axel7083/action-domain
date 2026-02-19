@@ -38,18 +38,6 @@ export class DomainReviewerAction {
 
         const [owner, repo] = event.repository.full_name.split("/");
 
-        const linkedIssues: Array<LinkedIssue> = [];
-        if(event.pull_request.issue_url) {
-            const url = new URL(event.pull_request.issue_url);
-            // pathname api url is under /repos/axel7083/action-domain/issues/2
-            const [,,owner2, repo2,, issueNumber2] = url.pathname.split('/');
-            linkedIssues.push({
-                owner: owner2,
-                repo: repo2,
-                issueNumber: parseInt(issueNumber2),
-            });
-        }
-
         const prBody = await this.client.getPullRequestBody(owner, repo, prNumber);
         const prAuthor = event.sender.login;
 
@@ -57,7 +45,7 @@ export class DomainReviewerAction {
 
         const config = await this.configProvider.fetch();
 
-        linkedIssues.push(...this.detector.extractLinkedIssues(prBody, owner, repo));
+        const linkedIssues: Array<LinkedIssue> =this.detector.extractLinkedIssues(prBody, owner, repo)
 
         info(`Found ${linkedIssues.length} linked issues.`);
 
