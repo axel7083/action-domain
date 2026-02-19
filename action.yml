@@ -7,6 +7,13 @@ inputs:
   configuration-url:
     description: Configuration to use
     required: true
+  github-token:
+    description: GitHub Token
+    required: true
+  selection-strategy:
+    description: Selection strategy for reviewers (all, random, first)
+    required: false
+    default: "random"
 outputs: {}
 runs:
   using: node24
