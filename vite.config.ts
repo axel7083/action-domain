@@ -20,6 +20,7 @@ import { builtinModules } from 'node:module';
 import { defineConfig } from 'vite';
 
 const PACKAGE_ROOT = __dirname;
+const ENTRY = process.env.ENTRY || 'src/index.ts';
 
 export default defineConfig({
   mode: process.env.MODE,
@@ -38,7 +39,7 @@ export default defineConfig({
     assetsDir: '.',
     minify: process.env.MODE === 'production' ? 'esbuild' : false,
     lib: {
-      entry: ['src/index.ts', 'scripts/json-schema.ts'],
+      entry: ENTRY,
       formats: ['cjs'],
     },
     rollupOptions: {
