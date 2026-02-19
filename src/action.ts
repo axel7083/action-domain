@@ -63,7 +63,7 @@ export class DomainReviewerAction {
 
         const domainsToReview = new Set<string>();
         for (const linked of linkedIssues) {
-            console.log('checking issue', linked.owner, linked.repo, linked.issueNumber)
+            info(`checking issue owner=${linked.owner} repo=${linked.repo} number=${linked.issueNumber}`)
             const labels = await this.client.getIssueLabels(linked.owner, linked.repo, linked.issueNumber);
             const domains = this.detector.extractDomains(labels);
             domains.forEach(d => domainsToReview.add(d));
